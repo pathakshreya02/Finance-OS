@@ -1,4 +1,4 @@
-#  FINANCE OS — Autonomous AI Finance Controller & 3-Way Reconciliation Engine
+# DhanSetu (धनसेतु) — The Autonomous 3-Way Bridge for Payment Reconciliation
 
 [![Version](https://img.shields.io/badge/Version-3.0.0--Persistent-6366f1.svg?style=for-the-badge)](https://github.com)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -7,7 +7,7 @@
 [![SQLite](https://img.shields.io/badge/Database-SQLite_WAL-003B57.svg?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg?style=for-the-badge)](LICENSE)
 
-> **FINANCE OS** is an enterprise-grade autonomous financial controller designed for modern e-commerce and fintech operations. It eliminates manual spreadsheet reconciliation by continuously matching **Internal Orders**, **Payment Gateway Transactions (Razorpay)**, and **Bank Settlement UTRs** using a dual-tier deterministic rule engine and an AI reasoning agent.
+> **DhanSetu** (धनसेतु — *The Wealth Bridge*) is an enterprise-grade autonomous financial controller designed for modern e-commerce and fintech operations. It eliminates manual spreadsheet reconciliation by continuously bridging and matching **Internal Orders**, **Payment Gateway Transactions (Razorpay)**, and **Bank Settlement UTRs** using a dual-tier deterministic rule engine and an AI reasoning agent.
 
 ---
 
@@ -36,7 +36,7 @@
 
 In fast-scaling enterprises processing thousands of transactions daily, discrepancies between what an e-commerce platform sells, what payment gateways collect, and what banks deposit create millions in silent capital leakage.
 
-**FINANCE OS** solves this end-to-end:
+**DhanSetu** solves this end-to-end:
 * Detects missing settlements, gateway overcharging, dropped webhooks, and double debits in sub-seconds.
 * Pinpoints exact root causes and constructs balanced double-entry accounting journal entries.
 * Executes autonomous remediation actions: triggering customer refunds, drafting gateway dispute claim letters, and exporting ERP journal entries.
@@ -126,7 +126,7 @@ flowchart TD
         A4[Synthetic Data Generator]
     end
 
-    subgraph CoreEngine ["2. Finance OS Core Engine (FastAPI)"]
+    subgraph CoreEngine ["2. DhanSetu Core Engine (FastAPI)"]
         B1[3-Way Reconciliation Logic]
         B2[Deterministic Rule Evaluator]
         B3[MDR & GST Leakage Analyzer]

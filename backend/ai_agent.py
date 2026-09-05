@@ -363,7 +363,7 @@ Return a valid JSON object with the following fields:
         health_status = "Healthy" if score_val > 85 else ("Moderate Risk" if score_val > 70 else "High Alert")
 
         exec_summary = (
-            f"During the latest multi-channel reconciliation cycle, Finance OS evaluated {summary.total_records} "
+            f"During the latest multi-channel reconciliation cycle, DhanSetu evaluated {summary.total_records} "
             f"transactions across ERP orders, Razorpay gateway receipts, and bank settlement batches. "
             f"The measured match rate closed at {summary.match_rate}%, with {summary.matched_records} fully verified orders. "
             f"However, {summary.exceptions_count} unresolved anomalies represent a total at-risk capital exposure of "

@@ -35,14 +35,14 @@ export default function Navbar({
         </div>
         <div>
           <div className="brand-title-row">
-            <h1 className="brand-title">FINANCE OS</h1>
+            <h1 className="brand-title">DHANSETU</h1>
             <span className="badge badge-indigo">AI CONTROLLER v3.0</span>
             <span className="badge badge-emerald flex-center-gap">
               <Database size={12} />
               <span>PERSISTENT</span>
             </span>
           </div>
-          <p className="brand-subtitle">Autonomous Gateway & Bank Settlement Reconciliation Engine</p>
+          <p className="brand-subtitle">The Autonomous 3-Way Bridge for Payment Reconciliation</p>
         </div>
       </div>
 

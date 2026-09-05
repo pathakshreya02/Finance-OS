@@ -42,9 +42,9 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(
-    title="FINANCE OS — Autonomous AI Finance Controller API",
+    title="DhanSetu — The Autonomous 3-Way Bridge for Payment Reconciliation API",
     description="Backend API for Razorpay Buildathon Track 04",
-    version="2.4.0",
+    version="3.0.0",
     lifespan=lifespan
 )
 

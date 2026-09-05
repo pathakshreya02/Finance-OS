@@ -16,7 +16,7 @@ export default function MoneyFlowVisualizer({ summary, transactions }) {
     return { grossVolume, gatewayCapture, bankSettled, totalFees, totalExposure, captureRate, settlementRate, slaHealth };
   }, [summary, transactions]);
 
-  if (!metrics) return <div className="money-flow-container"><div className="flow-empty">Loading money flow data…</div></div>;
+  if (!metrics) return <div className="money-flow-container"><div className="flow-empty">Loading money flow data...</div></div>;
 
   const { grossVolume, gatewayCapture, bankSettled, totalFees, totalExposure, captureRate, settlementRate, slaHealth } = metrics;
   const slaColor = slaHealth >= 90 ? "var(--emerald)" : slaHealth >= 75 ? "var(--amber)" : "var(--rose)";

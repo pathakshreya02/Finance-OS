@@ -647,7 +647,7 @@ Please acknowledge receipt of this dispute notice and provide the UTR / remittan
 
 Sincerely,
 Autonomous Finance Controller
-FINANCE OS — Enterprise Financial Operations
+DhanSetu — Enterprise Financial Operations
 """
             audit_item = self.log_audit(
                 target_tx.order_id,

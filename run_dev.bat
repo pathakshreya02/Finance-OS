@@ -1,11 +1,11 @@
 @echo off
 echo =================================================================
-echo   FINANCE OS: Autonomous AI Finance Controller
+echo   DhanSetu: The Autonomous 3-Way Bridge for Payment Reconciliation
 echo   Launching Backend API (Port 8000) & Frontend UI (Port 5173)...
 echo =================================================================
 
-start "FINANCE OS - Backend API (Port 8000)" cmd /k "%~dp0start_backend.bat"
-start "FINANCE OS - Frontend Dashboard (Port 5173)" cmd /k "%~dp0start_frontend.bat"
+start "DhanSetu - Backend API (Port 8000)" cmd /k "%~dp0start_backend.bat"
+start "DhanSetu - Frontend Dashboard (Port 5173)" cmd /k "%~dp0start_frontend.bat"
 
 echo.
 echo Both services are launching!

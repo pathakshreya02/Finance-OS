@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { 
   Search, 
   Filter, 
@@ -6,10 +6,16 @@ import {
   CheckCircle2, 
   AlertCircle, 
   ChevronLeft, 
-  ChevronRight,
-  ArrowUpDown,
-  FileCheck,
-  RotateCcw
+  ChevronRight, 
+  ArrowUpDown, 
+  FileCheck, 
+  RotateCcw,
+  CreditCard,
+  Building2,
+  Zap,
+  Wallet,
+  Eye,
+  SlidersHorizontal
 } from 'lucide-react';
 
 export default function ReconciliationWorkbench({
@@ -30,14 +36,28 @@ export default function ReconciliationWorkbench({
   onResolve,
   isLoading
 }) {
+  const searchInputRef = useRef(null);
+
+  // Keyboard shortcut: Press '/' to focus search input
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === '/' && document.activeElement !== searchInputRef.current) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const statusTabs = [
-    { key: "ALL", label: "All Records" },
-    { key: "MATCHED", label: "Matched" },
-    { key: "MISSING_PAYMENT", label: "Missing Payment" },
-    { key: "AMOUNT_MISMATCH", label: "Amount Mismatch" },
-    { key: "DUPLICATE_PAYMENT", label: "Duplicate" },
-    { key: "SETTLEMENT_MISMATCH", label: "Settlement Mismatch" },
-    { key: "UNKNOWN_PAYMENT", label: "Unknown Gateway" },
+    { key: "ALL", label: "All Records", icon: "📊" },
+    { key: "MATCHED", label: "Matched", icon: "✓" },
+    { key: "MISSING_PAYMENT", label: "Missing Payment", icon: "⚠️" },
+    { key: "AMOUNT_MISMATCH", label: "Amount Mismatch", icon: "≠" },
+    { key: "DUPLICATE_PAYMENT", label: "Duplicate", icon: "⎘" },
+    { key: "SETTLEMENT_MISMATCH", label: "Settlement Deficit", icon: "🏦" },
+    { key: "UNKNOWN_PAYMENT", label: "Orphan Gateway", icon: "❓" },
   ];
 
   const formatINR = (val) => {
@@ -52,17 +72,17 @@ export default function ReconciliationWorkbench({
   const getStatusBadge = (status) => {
     switch (status) {
       case "MATCHED":
-        return <span className="status-badge badge-matched">MATCHED</span>;
+        return <span className="status-badge badge-matched"><span className="status-dot"></span>MATCHED</span>;
       case "MISSING_PAYMENT":
-        return <span className="status-badge badge-missing">MISSING PAYMENT</span>;
+        return <span className="status-badge badge-missing"><span className="status-dot"></span>MISSING PAYMENT</span>;
       case "AMOUNT_MISMATCH":
-        return <span className="status-badge badge-mismatch">AMOUNT MISMATCH</span>;
+        return <span className="status-badge badge-mismatch"><span className="status-dot"></span>AMOUNT MISMATCH</span>;
       case "DUPLICATE_PAYMENT":
-        return <span className="status-badge badge-duplicate">DUPLICATE</span>;
+        return <span className="status-badge badge-duplicate"><span className="status-dot"></span>DUPLICATE CHARGE</span>;
       case "SETTLEMENT_MISMATCH":
-        return <span className="status-badge badge-settlement">SETTLE MISMATCH</span>;
+        return <span className="status-badge badge-settlement"><span className="status-dot"></span>BANK DEFICIT</span>;
       case "UNKNOWN_PAYMENT":
-        return <span className="status-badge badge-unknown">UNKNOWN EVENT</span>;
+        return <span className="status-badge badge-unknown"><span className="status-dot"></span>ORPHAN GATEWAY</span>;
       default:
         return <span className="status-badge">{status}</span>;
     }
@@ -71,7 +91,7 @@ export default function ReconciliationWorkbench({
   const getSeverityBadge = (severity) => {
     switch (severity) {
       case "HIGH":
-        return <span className="badge badge-rose">HIGH</span>;
+        return <span className="badge badge-rose badge-glow-rose">CRITICAL</span>;
       case "MEDIUM":
         return <span className="badge badge-amber">MED</span>;
       case "LOW":
@@ -79,6 +99,36 @@ export default function ReconciliationWorkbench({
       default:
         return <span className="badge badge-muted">NONE</span>;
     }
+  };
+
+  const getPaymentMethodPill = (method) => {
+    const m = (method || "").toUpperCase();
+    if (m.includes("UPI")) {
+      return (
+        <span className="payment-method-pill pill-upi">
+          <Zap size={10} /> UPI
+        </span>
+      );
+    }
+    if (m.includes("CARD") || m.includes("CREDIT") || m.includes("DEBIT")) {
+      return (
+        <span className="payment-method-pill pill-card">
+          <CreditCard size={10} /> Card
+        </span>
+      );
+    }
+    if (m.includes("NETBANKING") || m.includes("NET")) {
+      return (
+        <span className="payment-method-pill pill-netbanking">
+          <Building2 size={10} /> Netbanking
+        </span>
+      );
+    }
+    return (
+      <span className="payment-method-pill pill-wallet">
+        <Wallet size={10} /> {method || "Digital"}
+      </span>
+    );
   };
 
   const currentPage = Math.floor(skip / limit) + 1;
@@ -91,21 +141,23 @@ export default function ReconciliationWorkbench({
         <div className="search-box">
           <Search size={16} className="search-icon" />
           <input 
+            ref={searchInputRef}
             type="text" 
-            placeholder="Search Order ID, Customer, Payment ID..."
+            placeholder="Search Order ID, Customer name, Payment ID, UTR..."
             value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
           />
-          {searchTerm && (
+          {searchTerm ? (
             <button 
               className="clear-search-btn"
               onClick={() => setSearchTerm("")}
+              title="Clear search"
             >
               ✕
             </button>
+          ) : (
+            <kbd className="kbd-shortcut" title="Press / to focus">/</kbd>
           )}
         </div>
 
@@ -119,7 +171,7 @@ export default function ReconciliationWorkbench({
               className="select-input"
             >
               <option value="ALL">All Severities</option>
-              <option value="HIGH">High Severity</option>
+              <option value="HIGH">Critical / High</option>
               <option value="MEDIUM">Medium Severity</option>
               <option value="LOW">Low Severity</option>
             </select>
@@ -131,7 +183,7 @@ export default function ReconciliationWorkbench({
               className={`seg-btn ${resolvedFilter === null ? 'active' : ''}`}
               onClick={() => setResolvedFilter(null)}
             >
-              All
+              All Status
             </button>
             <button 
               className={`seg-btn ${resolvedFilter === false ? 'active' : ''}`}
@@ -157,7 +209,8 @@ export default function ReconciliationWorkbench({
             className={`status-tab-btn ${statusFilter === tab.key ? 'active' : ''}`}
             onClick={() => setStatusFilter(tab.key)}
           >
-            {tab.label}
+            <span className="tab-icon">{tab.icon}</span>
+            <span>{tab.label}</span>
           </button>
         ))}
       </div>
@@ -167,15 +220,15 @@ export default function ReconciliationWorkbench({
         <table className="reconcile-table">
           <thead>
             <tr>
-              <th>Order ID</th>
+              <th>Order ID & Timestamp</th>
               <th>Customer & Method</th>
-              <th className="text-right">Expected</th>
-              <th className="text-right">Received</th>
+              <th className="text-right">Order Amount</th>
+              <th className="text-right">Gateway Received</th>
               <th className="text-right">Exposure / Diff</th>
-              <th>Classification</th>
+              <th>Status Classification</th>
               <th>Severity</th>
-              <th>Resolution</th>
-              <th className="text-center">Actions</th>
+              <th>Resolution State</th>
+              <th className="text-center">Forensic Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -184,24 +237,25 @@ export default function ReconciliationWorkbench({
                 <td colSpan="9" className="text-center py-12 text-muted">
                   <div className="flex-center-gap">
                     <span className="spinner-border"></span>
-                    <span>Scanning reconciliation records...</span>
+                    <span>Scanning DhanSetu 3-way reconciliation ledger...</span>
                   </div>
                 </td>
               </tr>
             ) : transactions.length === 0 ? (
               <tr>
                 <td colSpan="9" className="text-center py-12 text-muted empty-state-box">
-                  <FileCheck size={32} className="text-muted mb-2" />
-                  <p>No transactions match the selected filters.</p>
+                  <FileCheck size={36} className="text-muted mb-2 text-indigo" />
+                  <p className="font-semibold text-primary">No transactions match the selected filters</p>
+                  <p className="text-xs text-muted mt-1">Try resetting your filters or search query.</p>
                 </td>
               </tr>
             ) : (
               transactions.map((tx) => (
-                <tr key={tx.id} className={tx.is_resolved ? 'row-resolved' : ''}>
+                <tr key={tx.id} className={tx.is_resolved ? 'row-resolved' : 'row-active'}>
                   {/* Order ID */}
                   <td>
                     <div className="order-id-cell">
-                      <span className="mono font-semibold">{tx.order_id}</span>
+                      <span className="mono font-semibold text-primary">{tx.order_id}</span>
                       <span className="text-xs text-muted mono">{tx.created_at?.slice(0, 16)}</span>
                     </div>
                   </td>
@@ -210,19 +264,19 @@ export default function ReconciliationWorkbench({
                   <td>
                     <div className="customer-cell">
                       <span className="customer-name">{tx.customer}</span>
-                      <span className="payment-method-pill">{tx.payment_method}</span>
+                      {getPaymentMethodPill(tx.payment_method)}
                     </div>
                   </td>
 
                   {/* Expected */}
-                  <td className="text-right mono">
+                  <td className="text-right mono font-medium">
                     {formatINR(tx.expected_amount)}
                   </td>
 
                   {/* Received */}
                   <td className="text-right mono">
                     {tx.received_amount > 0 ? (
-                      formatINR(tx.received_amount)
+                      <span className="text-primary font-medium">{formatINR(tx.received_amount)}</span>
                     ) : (
                       <span className="text-muted">₹0.00</span>
                     )}
@@ -231,15 +285,15 @@ export default function ReconciliationWorkbench({
                   {/* Exposure / Diff */}
                   <td className="text-right mono">
                     {tx.exposure_amount > 0 ? (
-                      <span className="text-rose font-semibold">
+                      <span className="text-rose font-bold exposure-glow">
                         {formatINR(tx.exposure_amount)}
                       </span>
                     ) : tx.difference !== 0 ? (
-                      <span className="text-amber">
+                      <span className="text-amber font-semibold">
                         {tx.difference > 0 ? `+${formatINR(tx.difference)}` : formatINR(tx.difference)}
                       </span>
                     ) : (
-                      <span className="text-emerald">₹0.00</span>
+                      <span className="text-emerald font-semibold">₹0.00</span>
                     )}
                   </td>
 
@@ -257,11 +311,14 @@ export default function ReconciliationWorkbench({
                   <td>
                     {tx.is_resolved ? (
                       <span className="resolved-pill" title={tx.resolution_note || "Resolved"}>
-                        <CheckCircle2 size={13} />
+                        <CheckCircle2 size={12} />
                         <span>Resolved</span>
                       </span>
                     ) : (
-                      <span className="unresolved-pill">Pending</span>
+                      <span className="unresolved-pill">
+                        <span className="pulse-dot-amber"></span>
+                        <span>Pending</span>
+                      </span>
                     )}
                   </td>
 
@@ -272,9 +329,9 @@ export default function ReconciliationWorkbench({
                         <button 
                           className="btn-action btn-action-ai"
                           onClick={() => onInvestigate(tx)}
-                          title="Run AI Root Cause Analysis"
+                          title="Run AI Forensic Root Cause Analysis"
                         >
-                          <Sparkles size={13} />
+                          <Sparkles size={13} className="ai-sparkle-icon" />
                           <span>AI Investigate</span>
                         </button>
                       )}
@@ -283,7 +340,7 @@ export default function ReconciliationWorkbench({
                         <button 
                           className="btn-action btn-action-resolve"
                           onClick={() => onResolve(tx)}
-                          title="Mark exception as resolved"
+                          title="Mark exception as resolved with operator note"
                         >
                           <CheckCircle2 size={13} />
                           <span>Resolve</span>
@@ -291,7 +348,14 @@ export default function ReconciliationWorkbench({
                       )}
 
                       {tx.status === "MATCHED" && (
-                        <span className="text-xs text-muted">Verified</span>
+                        <button 
+                          className="btn-action btn-action-matched"
+                          onClick={() => onInvestigate(tx)}
+                          title="View 3-Way verification proof"
+                        >
+                          <Eye size={12} />
+                          <span>Verified</span>
+                        </button>
                       )}
                     </div>
                   </td>
@@ -305,9 +369,9 @@ export default function ReconciliationWorkbench({
       {/* Pagination Footer */}
       <div className="workbench-pagination">
         <span className="text-sm text-muted">
-          Showing <span className="mono font-semibold text-primary">{Math.min(total, skip + 1)}</span> to{' '}
+          Showing <span className="mono font-semibold text-primary">{total > 0 ? skip + 1 : 0}</span> to{' '}
           <span className="mono font-semibold text-primary">{Math.min(total, skip + transactions.length)}</span> of{' '}
-          <span className="mono font-semibold text-primary">{total}</span> records
+          <span className="mono font-semibold text-primary">{total}</span> transactions
         </span>
 
         <div className="pagination-controls">

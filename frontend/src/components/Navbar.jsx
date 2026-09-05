@@ -35,14 +35,21 @@ export default function Navbar({
         </div>
         <div>
           <div className="brand-title-row">
-            <h1 className="brand-title">DHANSETU</h1>
+            <h1 className="brand-title">DHAN<span className="brand-title-accent">SETU</span></h1>
             <span className="badge badge-indigo">AI CONTROLLER v3.0</span>
             <span className="badge badge-emerald flex-center-gap">
               <Database size={12} />
               <span>PERSISTENT</span>
             </span>
           </div>
-          <p className="brand-subtitle">The Autonomous 3-Way Bridge for Payment Reconciliation</p>
+          <div className="brand-subtitle-row">
+            <p className="brand-subtitle">The Autonomous 3-Way Bridge for Payment Reconciliation</p>
+            <div className="telemetry-bar">
+              <span className="telemetry-pill"><span className="telemetry-dot dot-online"></span> ENGINE ACTIVE</span>
+              <span className="telemetry-pill"><span className="telemetry-dot dot-online"></span> RAZORPAY SYNCED</span>
+              <span className="telemetry-pill"><span className="telemetry-dot dot-online"></span> BANK UTR LIVE</span>
+            </div>
+          </div>
         </div>
       </div>
 

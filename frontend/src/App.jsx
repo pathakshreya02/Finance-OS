@@ -350,6 +350,28 @@ export default function App() {
     return () => window.removeEventListener('finance-refresh', handler);
   }, [fetchTransactions]);
 
+  // Quick Filter Handlers from Ribbon and Flow Visualizer
+  const handleQuickFilterStatus = (stage) => {
+    setSkip(0);
+    if (stage === 'ALL') {
+      setStatusFilter('ALL');
+      setSeverityFilter('ALL');
+      setResolvedFilter(null);
+    } else if (stage === 'MATCHED') {
+      setStatusFilter('MATCHED');
+      setSeverityFilter('ALL');
+      setResolvedFilter(null);
+    } else if (stage === 'EXCEPTIONS') {
+      setStatusFilter('ALL');
+      setResolvedFilter(false);
+    }
+  };
+
+  const handleQuickFilterSeverity = (sev) => {
+    setSkip(0);
+    setSeverityFilter(sev);
+  };
+
   return (
     <div className="app-container">
       {/* Webhook Toast */}
@@ -385,10 +407,19 @@ export default function App() {
       <MetricsRibbon 
         summary={summary}
         isLoading={isLoadingData && !summary}
+        onFilterSeverity={handleQuickFilterSeverity}
+        onFilterStatus={handleQuickFilterStatus}
+        activeSeverity={severityFilter}
       />
 
-      {/* Live Money Flow Visualizer */}
-      <MoneyFlowVisualizer summary={summary} transactions={transactions} />
+      {/* Live Money Flow Visualizer (DhanSetu 3-Way Bridge) */}
+      <MoneyFlowVisualizer 
+        summary={summary} 
+        transactions={transactions}
+        onFilterStatus={handleQuickFilterStatus}
+        onOpenFeeAudit={() => setIsFeeAuditOpen(true)}
+        activeFilter={statusFilter}
+      />
 
       {/* Primary Reconciliation Workbench */}
       <ReconciliationWorkbench 

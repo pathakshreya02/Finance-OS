@@ -1,4 +1,4 @@
-# 🛡️ FINANCE OS — Autonomous AI Finance Controller & 3-Way Reconciliation Engine
+#  FINANCE OS — Autonomous AI Finance Controller & 3-Way Reconciliation Engine
 
 [![Version](https://img.shields.io/badge/Version-3.0.0--Persistent-6366f1.svg?style=for-the-badge)](https://github.com)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -11,7 +11,7 @@
 
 ---
 
-## 📌 Table of Contents
+##  Table of Contents
 - [Executive Overview](#-executive-overview)
 - [The Core Problem](#-the-core-problem)
 - [Key Features](#-key-features)
@@ -32,7 +32,7 @@
 
 ---
 
-## 🏢 Executive Overview
+##  Executive Overview
 
 In fast-scaling enterprises processing thousands of transactions daily, discrepancies between what an e-commerce platform sells, what payment gateways collect, and what banks deposit create millions in silent capital leakage.
 
@@ -44,7 +44,7 @@ In fast-scaling enterprises processing thousands of transactions daily, discrepa
 
 ---
 
-## ⚠️ The Core Problem
+##  The Core Problem
 
 Traditional finance teams manually match CSV files at month-end using Excel VLOOKUPs. This causes:
 1. **Capital Attrition**: Gateway fees are frequently miscalculated by 0.2%–0.5% beyond agreed Merchant Discount Rates (MDR).
@@ -54,7 +54,7 @@ Traditional finance teams manually match CSV files at month-end using Excel VLOO
 
 ---
 
-## 🚀 Key Features
+##  Key Features
 
 ### 1. 3-Way Continuous Reconciliation Engine
 Performs multi-point validation across:
@@ -79,9 +79,9 @@ Clicking **Investigate** on any anomalous transaction opens a forensic analysis 
 
 ### 3. Agentic Self-Healing Action Dispatcher
 Go beyond passive monitoring with direct, executable remediation workflows:
-* ⚡ **Trigger Automated Customer Refund**: Dispatches refund requests via gateway API with audit tracking.
-* ✉️ **Generate Gateway Dispute Letter**: Composes formal dispute claim packets with order IDs, UTR references, and chargeback evidence.
-* 📑 **Export ERP / SAP Journal**: Generates standard accounting journal files for SAP, NetSuite, or Tally.
+*  **Trigger Automated Customer Refund**: Dispatches refund requests via gateway API with audit tracking.
+*  **Generate Gateway Dispute Letter**: Composes formal dispute claim packets with order IDs, UTR references, and chargeback evidence.
+*  **Export ERP / SAP Journal**: Generates standard accounting journal files for SAP, NetSuite, or Tally.
 
 ### 4. MDR Fee Leakage & GST ITC Audit Engine
 Continuously audits transaction fees against contracted pricing tiers (Credit Cards: 2.0%, Netbanking: 1.5%, UPI: 0.0%, Wallets: 1.8%):
@@ -115,7 +115,7 @@ An interactive sidecar chat assistant connected directly to the active ledger:
 
 ---
 
-## 🏛️ System Architecture
+##  System Architecture
 
 ```mermaid
 flowchart TD
@@ -160,7 +160,7 @@ flowchart TD
 
 ---
 
-## 📂 Project Directory Structure
+## Project Directory Structure
 
 ```
 AI_Finance_Controller/
@@ -203,7 +203,7 @@ AI_Finance_Controller/
 
 ---
 
-## ⚡ Quickstart & Installation
+## Quickstart & Installation
 
 ### Prerequisites
 * **Python 3.10+** installed and available in PATH.
@@ -266,7 +266,7 @@ Frontend runs on: **`http://localhost:5173`**.
 
 ---
 
-## 🔒 Compliance & Security Standards
+##  Compliance & Security Standards
 
 * **Audit Readiness**: Every status transition, action dispatch, and operator note is committed with timestamp and actor ID to the immutable audit ledger.
 * **Double-Entry Verification**: Automatically generates balanced debits and credits for every transaction anomaly, maintaining GAAP/IFRS accounting integrity.
